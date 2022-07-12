@@ -22,8 +22,7 @@ botaoAdicionar.addEventListener("click", function (event) {
 
     //validacao form
     if (erros.length > 0) {
-        const mensagemErro = document.querySelector("#mensagem-erro")
-        mensagemErro.textContent = erros;
+        exibeMensagensDeErro(erros);
         return;
     }
 
@@ -34,6 +33,10 @@ botaoAdicionar.addEventListener("click", function (event) {
 
     //limpando os dados preenchidos
     form.reset()
+
+    //limpa as mensagens de erro apos o envio
+    const mensagensErro = document.querySelector("#mensagens-erro")
+    mensagensErro.innerHTML = ""
 
 });
 
@@ -77,17 +80,43 @@ function montaTd(dado, classe) {
     return td;
 }
 
+function exibeMensagensDeErro(erros) {
+    const ul = document.querySelector("#mensagens-erro")
+
+    //apaga o li, limpa as mensagens de erro
+    ul.innerHTML = ""
+
+    erros.forEach(function (erro) {
+        const li = document.createElement("li")
+        li.textContent = erro;
+
+        ul.appendChild(li)
+    })
+}
+
 //validacao form
 
 function validaPaciente(paciente) {
 
     const erros = [];
 
+    if (paciente.nome.length == 0) {
+        erros.push("Prencha o campo nome.");
+    }
     if (!validaPeso(paciente.peso)) {
-        erros.push("O peso é inválido")
+        erros.push("O peso é inválido.");
+    }
+    if (paciente.peso.length == 0) {
+        erros.push("Prencha o campo peso.");
     }
     if (!validaAltura(paciente.altura)) {
-        erros.push("A altura é inválida")
+        erros.push("A altura é inválida.");
+    }
+    if (paciente.altura.length == 0) {
+        erros.push("Prencha o campo altura.");
+    }
+    if (paciente.gordura.length == 0) {
+        erros.push("Prencha o campo gordura.");
     }
 
     return erros
