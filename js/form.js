@@ -1,5 +1,5 @@
 
-//add novo cliente
+//add novo paciente
 
 const botaoAdicionar = document.querySelector("#adicionar-paciente");
 
@@ -7,15 +7,36 @@ const botaoAdicionar = document.querySelector("#adicionar-paciente");
 botaoAdicionar.addEventListener("click", function (event) {
     event.preventDefault();
 
-    //pegando valores do input
     const form = document.querySelector("#form-adiciona");
 
-    const nome = form.nome.value;
-    const peso = form.peso.value;
-    const altura = form.altura.value;
-    const gordura = form.gordura.value;
+    //extraindo informacoes do paciente em form
+    const paciente = obtemPacienteDoFormulario(form)
 
-    //criando tabela
+    //criando tabela tr e td
+    const pacienteTr = montaTr(paciente)
+
+    //add paciente na tabela
+    const tabela = document.querySelector("#tabela-pacientes");
+
+    tabela.appendChild(pacienteTr);
+
+});
+
+function obtemPacienteDoFormulario(form) {
+
+    var paciente = {
+        nome: form.nome.value,
+        peso: form.peso.value,
+        altura: form.altura.value,
+        gordura: form.gordura.value,
+        imc: calculaImc(form.peso.value, form.altura.value)
+    }
+    return paciente;
+
+}
+
+function montaTr(paciente) {
+
     const pacienteTr = document.createElement("tr");
 
     const nomeTd = document.createElement("td");
@@ -24,21 +45,19 @@ botaoAdicionar.addEventListener("click", function (event) {
     const gorduraTd = document.createElement("td");
     const imcTd = document.createElement("td");
 
-    nomeTd.textContent = nome;
-    pesoTd.textContent = peso;
-    alturaTd.textContent = altura;
-    gorduraTd.textContent = gordura;
-    imcTd.textContent = calculaImc(peso, altura);
+    nomeTd.textContent = paciente.nome;
+    pesoTd.textContent = paciente.peso;
+    alturaTd.textContent = paciente.altura;
+    gorduraTd.textContent = paciente.gordura;
+    imcTd.textContent = paciente.imc;
 
-    //colocando um elemento dentro do outro, ou seja, criando filhosF
+    //colocando um elemento dentro do outro, ou seja, criando filhos e add na tabela
     pacienteTr.appendChild(nomeTd);
     pacienteTr.appendChild(pesoTd);
     pacienteTr.appendChild(alturaTd);
     pacienteTr.appendChild(gorduraTd);
     pacienteTr.appendChild(imcTd);
 
-    const tabela = document.querySelector("#tabela-pacientes");
 
-    tabela.appendChild(pacienteTr);
-
-});
+    return pacienteTr;
+}
