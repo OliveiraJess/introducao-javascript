@@ -5,6 +5,8 @@ const botaoAdicionar = document.querySelector("#adicionar-paciente");
 
 //escutando evento
 botaoAdicionar.addEventListener("click", function (event) {
+
+    //mantendo no form os dados preenchidos
     event.preventDefault();
 
     const form = document.querySelector("#form-adiciona");
@@ -19,6 +21,9 @@ botaoAdicionar.addEventListener("click", function (event) {
     const tabela = document.querySelector("#tabela-pacientes");
 
     tabela.appendChild(pacienteTr);
+
+    //limpando os dados preenchidos
+    form.reset()
 
 });
 
@@ -35,29 +40,29 @@ function obtemPacienteDoFormulario(form) {
 
 }
 
+//criando tr
 function montaTr(paciente) {
 
+    //criando tr
     const pacienteTr = document.createElement("tr");
+    pacienteTr.classList.add("paciente");
 
-    const nomeTd = document.createElement("td");
-    const pesoTd = document.createElement("td");
-    const alturaTd = document.createElement("td");
-    const gorduraTd = document.createElement("td");
-    const imcTd = document.createElement("td");
-
-    nomeTd.textContent = paciente.nome;
-    pesoTd.textContent = paciente.peso;
-    alturaTd.textContent = paciente.altura;
-    gorduraTd.textContent = paciente.gordura;
-    imcTd.textContent = paciente.imc;
-
-    //colocando um elemento dentro do outro, ou seja, criando filhos e add na tabela
-    pacienteTr.appendChild(nomeTd);
-    pacienteTr.appendChild(pesoTd);
-    pacienteTr.appendChild(alturaTd);
-    pacienteTr.appendChild(gorduraTd);
-    pacienteTr.appendChild(imcTd);
-
+    //colocando um elemento dentro do outro, ou seja, criando filhos e add o monta td
+    pacienteTr.appendChild(montaTd(paciente.nome, "info-nome"));
+    pacienteTr.appendChild(montaTd(paciente.peso, "info-peso"));
+    pacienteTr.appendChild(montaTd(paciente.altura, "info-altura"));
+    pacienteTr.appendChild(montaTd(paciente.gordura, "info-gordura"));
+    pacienteTr.appendChild(montaTd(paciente.imc, "info-imc"));
 
     return pacienteTr;
+}
+
+//criando td, add classe e passando o valor
+function montaTd(dado, classe) {
+
+    const td = document.createElement("td");
+    td.textContent = dado;
+    td.classList.add(classe);
+
+    return td;
 }
